@@ -11,5 +11,8 @@ postModel.belongsTo(userModel,{foreignKey: "userId"})
 userModel.hasMany(tokenModel,{foreignKey: 'userId'})
 tokenModel.belongsTo(userModel,{foreignKey: 'userId'})
 
+tokenModel.belongsTo(userModel,{foreignKey:'userId'})
+userModel.hasMany(tokenModel,{foreignKey:'userId'})
+
 
 // export default {postModel, userModel}

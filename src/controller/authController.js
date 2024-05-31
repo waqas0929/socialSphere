@@ -50,13 +50,17 @@ const userController = {
         id: user.id,
         email: user.email,
         firstName: user.firstName,
-        // lastName: checkUser.lastName,
       };
+      const tokenExpiration = new Date(Date.now() + 1 * 60 * 1000);
+
       const token = jwt.sign(data, process.env.JWT_SECRET_KEY, {
         expiresIn: "1hour",
       });
+
+
       await tokenModel.create({
         token,
+        tokenExpiration,
         userId: user.id,
       });
 
