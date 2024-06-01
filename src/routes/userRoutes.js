@@ -9,10 +9,7 @@ userRouter.post("/signup", userController.signup);
 userRouter.post("/signin", AuthValidators.signin, userController.signin);
 userRouter.get("/profile", authenticateJWT, userController.getUserProfile);
 userRouter.put("/profile", authenticateJWT, userController.updateUserProfile);
-userRouter.delete(
-  "/profile",
-  authenticateJWT,
-  userController.deleteUserProfile
+userRouter.delete("/profile/delete/:id",authenticateJWT,userController.deleteUserProfile
 );
 
 export default userRouter;

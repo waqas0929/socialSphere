@@ -21,7 +21,7 @@ syncDb();
 
 const startTokenCleanup = () => {
   cleanupExpiredToken();
-  setInterval(cleanupExpiredToken, 1 * 60 * 1000);
+  setInterval(cleanupExpiredToken, 60 * 60 * 1000);
 };
 
 startTokenCleanup();
