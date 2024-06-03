@@ -8,14 +8,18 @@ const postController = {
     try {
       const { title, content } = req.body;
 
-      const userId = req.user.id;
-      console.log(userId);
+      const userIdFromToken = req.user.id;
+      const userIdFromParams = req.params.id;
 
-      if (!userId) {
-        return res.status(401).json({ message: "User ID is missing" });
+      // console.log(userIdFromToken);
+      // console.log(userIdFromParams);
+
+
+      if (userIdFromToken !== userIdFromParams) {
+        return res.status(401).json({ message: "User ID is not correct" });
       }
 
-      const user = await userModel.findByPk(userId);
+      const user = await userModel.findByPk(userIdFromToken);
       if (!user) {
         return errorHandler(res, "USER_NOT_FOUND");
       }
@@ -30,7 +34,7 @@ const postController = {
       const newPost = await postModel.create({
         title,
         content,
-        userId,
+        userId: userIdFromToken,
         imageUrl,
       });
 
@@ -81,10 +85,27 @@ const postController = {
   updatePost: async (req, res) => {
     try {
       const { title, content } = req.body;
+      
+      const userIdFromToken = req.user.id;
+      const userIdFromParams = req.params.id;
+      
+      // console.log(userIdFromToken);
+      // console.log(userIdFromParams);
+      
+      
+      if (userIdFromToken !== userIdFromParams) {
+        return res.status(401).json({ message: "User ID is not correct" });
+      }
+      
       const post = await postModel.findByPk(req.params.id);
+
 
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
+      }
+
+      if(post.userId !== userIdFromToken){
+        return res.status(403).json({message:"Not authorized to update this post"})
       }
 
       post.title = title || post.title;
@@ -100,10 +121,26 @@ const postController = {
 
   deletePost: async (req, res) => {
     try {
-      const post = await postModel.findByPk(req.params.id);
 
+      const userIdFromToken = req.user.id;
+      const postId = req.params.id;
+  
+      // console.log("User ID from token:", userIdFromToken);
+      // console.log("Post ID from params:", postId);
+
+      const post = await postModel.findByPk(postId);
+  
       if (!post) {
         return res.status(404).json({ message: "Post not found" });
+      }
+      
+      if (post.userId !== userIdFromToken) {
+        return res.status(401).json({ message: "User ID is not correct" });
+      }
+
+
+      if (post.userId !== userIdFromToken){
+        return res.status(403).json({message:"Not authorized to delete this post"})
       }
 
       const user = await userModel.findByPk(post.userId);

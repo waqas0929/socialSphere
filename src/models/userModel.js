@@ -24,9 +24,9 @@ const userModel = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  token:{
-    type:DataTypes.STRING
-  }
+  // token:{
+  //   type:DataTypes.STRING
+  // }
 });
 
 
