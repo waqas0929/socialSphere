@@ -22,7 +22,17 @@ const postController = {
 
       const userEmail = user.email;
 
-      const newPost = await postModel.create({ title, content, userId });
+      let imageUrl = null;
+      if (req.file) {
+        imageUrl = req.file.path;
+      }
+
+      const newPost = await postModel.create({
+        title,
+        content,
+        userId,
+        imageUrl,
+      });
 
       const subject = "Post Created Successfully";
       const emailContent =
@@ -103,14 +113,13 @@ const postController = {
 
       const userEmail = user.email;
 
-
       await post.destroy();
 
       const subject = "Post Created Successfully";
       const emailContent =
         "Thank You for using SocialSphere! Your post has been created successfully";
       await sendEmailNotification(userEmail, subject, emailContent);
-      
+
       res.status(200).json({ message: "Post deleted successfully" });
     } catch (error) {
       console.error(error);
