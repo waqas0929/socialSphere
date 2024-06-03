@@ -4,7 +4,7 @@ import authenticateJWT from "../middleware/authmiddleware.js";
 
 const postRouter = express.Router();
 
-postRouter.post("/create", authenticateJWT, postController.createPost);
+postRouter.post("/create/:id", authenticateJWT, postController.createPost);
 postRouter.get("/getAllPosts", authenticateJWT, postController.getAllPosts);
 postRouter.get("/getPostById/:id", authenticateJWT, postController.getPostById);
 postRouter.put("/updatePost/:id", authenticateJWT, postController.updatePost);

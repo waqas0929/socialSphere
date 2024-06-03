@@ -5,6 +5,8 @@ const AuthValidators = {
     const schema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().required()
+
+        //need to implement character check
     })
 
     const {error, value} = schema.validate(req.body)

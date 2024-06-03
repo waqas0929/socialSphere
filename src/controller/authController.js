@@ -3,6 +3,7 @@ import { compare, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import tokenModel from "../models/tokenModel.js";
 import errorHandler from "../utils/errorHandler.js";
+import sendEmailNotification from "../services/emailNotificationServices.js";
 
 const userController = {
   signup: async (req, res) => {
@@ -25,10 +26,14 @@ const userController = {
         password: hashedPassword,
       });
 
+      const subject = "Welcome to SocialSphere"
+      const content = "Thank You for signing up!"
+      await sendEmailNotification(email, subject, content)
+
       errorHandler(res,"USER_REGISTER_SUCCESSFULLY", newUser);
     } catch (error) {
       console.error("Signup Error:", error);
-      errorHandler(res, 'INTERNAL_SERVER_ERROR');
+     res.status(500).json({message:"internal error"})
     }
   },
 
@@ -116,7 +121,13 @@ const userController = {
         return errorHandler(res, 'USER_NOT_FOUND');
       }
 
+      const userEmail = user.email
+
       await user.destroy();
+
+      const subject = "Account Deleted Successfully"
+      const content = "Thank You for using SocialSphere!"
+      await sendEmailNotification(userEmail, subject, content)
 
       errorHandler(res, "USER_DELETED_SUCCESSFULLY");
     } catch (error) {

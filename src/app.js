@@ -7,6 +7,7 @@ import allRoutes from "./routes/allRoutes.js";
 
 import "./models/associations.js";
 import cleanupExpiredToken from "./utils/tokenCLeanUp.js";
+import cron from "./crons/cronForEmail.js";
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(allRoutes);
+
+cron;
 
 connectDB();
 syncDb();

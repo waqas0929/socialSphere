@@ -1,6 +1,5 @@
 import { Op } from "sequelize";
 import tokenModel from "../models/tokenModel.js";
-// import userModel from "../models/userModel.js";
 
 const cleanupExpiredToken = async () => {
   const now = new Date();
