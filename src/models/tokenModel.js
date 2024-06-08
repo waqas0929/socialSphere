@@ -10,7 +10,7 @@ const tokenModel = sequelize.define("token", {
     primaryKey: true,
   },
   token: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(255),
     allowNull: false,
   },
   tokenExpiration: {

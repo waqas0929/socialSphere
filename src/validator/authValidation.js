@@ -1,4 +1,5 @@
 import Joi from "joi";
+import errorHandler from "../utils/errorHandler.js";
 
 const AuthValidators = {
   // validation for signup
@@ -37,7 +38,7 @@ const AuthValidators = {
 
     const { error, value } = schema.validate(req.body);
     if (error) {
-      return res.status(400).json({ message: "Invalid Data", error });
+      return errorHandler(res,"INVALID_CREDENTIALS");
     }
 
     next();
@@ -62,7 +63,7 @@ const AuthValidators = {
 
     const { error, value } = schema.validate(req.body);
     if (error) {
-      return res.status(400).json({ message: "Invalid Data", error });
+      return errorHandler(res,"INVALID_CREDENTIALS");
     }
 
     next();

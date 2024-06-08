@@ -6,9 +6,9 @@ const userModel = sequelize.define("user", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
-    primaryKey:true
+    primaryKey: true,
   },
- 
+
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -24,11 +24,18 @@ const userModel = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // token:{
-  //   type:DataTypes.STRING
-  // }
+  failedLoginAttempts: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
+  accountLockUntil: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  isPermanentlyLocked:{
+    type: DataTypes.BOOLEAN,
+    defaultValue:false
+  }
 });
-
-
 
 export default userModel;
